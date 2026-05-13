@@ -1,0 +1,74 @@
+[
+  {
+    "page": "home",
+    "implCount": 0,
+    "refCount": 438,
+    "ok": false
+  },
+  {
+    "page": "accounts",
+    "implCount": 290,
+    "refCount": 290,
+    "ok": true
+  },
+  {
+    "page": "transactions",
+    "implCount": 409,
+    "refCount": 409,
+    "ok": true
+  },
+  {
+    "page": "forecast",
+    "implCount": 381,
+    "refCount": 381,
+    "ok": true
+  },
+  {
+    "page": "goals",
+    "implCount": 315,
+    "refCount": 295,
+    "ok": true
+  },
+  {
+    "page": "budgets",
+    "implCount": 231,
+    "refCount": 231,
+    "ok": true
+  },
+  {
+    "page": "cards",
+    "implCount": 221,
+    "refCount": 221,
+    "ok": true
+  },
+  {
+    "page": "recurring",
+    "implCount": 250,
+    "refCount": 250,
+    "ok": true
+  },
+  {
+    "page": "investments",
+    "implCount": 219,
+    "refCount": 215,
+    "ok": true
+  },
+  {
+    "page": "networth",
+    "implCount": 178,
+    "refCount": 178,
+    "ok": true
+  },
+  {
+    "page": "import",
+    "implCount": 164,
+    "refCount": 300,
+    "ok": true
+  },
+  {
+    "page": "simulator",
+    "implCount": 199,
+    "refCount": 199,
+    "ok": true
+  }
+]

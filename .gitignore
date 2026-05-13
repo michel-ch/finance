@@ -1,0 +1,33 @@
+# Dependencies
+node_modules/
+tests/node_modules/
+
+# Test artifacts
+test-results/
+playwright-report/
+tests/*-report.json
+tests/playwright-report/
+
+# Playwright MCP session logs (one-off browser-control runs)
+.playwright-mcp/
+
+# Python caches (from webapp/serve.py)
+__pycache__/
+*.pyc
+*.pyo
+
+# Claude Code local-only settings
+.claude/settings.local.json
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
+.vscode/
+.idea/
+
+# Local environment overrides
+.env
+.env.local

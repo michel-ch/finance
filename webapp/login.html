@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-accent="teal">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign in — Finch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Geist:wght@400;500;600&family=Newsreader:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<style>
+  html,body{margin:0;background:var(--bg);color:var(--text-primary);font-family:var(--font-system);height:100%}
+  .wrap{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px}
+  .card{width:100%;max-width:420px;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:36px 32px;box-shadow:var(--shadow-card)}
+  .brand{display:flex;align-items:center;gap:10px;margin-bottom:28px}
+  .mark{width:32px;height:32px;border-radius:8px;background:var(--text-primary);color:var(--bg);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:700;font-size:19px;letter-spacing:-0.04em}
+  .brand-name{font-family:var(--font-display);font-weight:600;font-size:18px;letter-spacing:-0.02em}
+  h1{font-family:var(--font-display);font-weight:600;letter-spacing:-0.02em;font-size:28px;margin:0 0 6px}
+  .sub{color:var(--text-secondary);font-size:14px;margin:0 0 24px}
+  label{display:block;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.4px;color:var(--text-tertiary);margin:14px 0 6px}
+  input[type=email],input[type=password]{width:100%;height:40px;padding:0 12px;border:1px solid var(--border);border-radius:8px;background:var(--surface-sunken);color:var(--text-primary);font:inherit;outline:none;transition:border-color 150ms var(--ease),box-shadow 150ms var(--ease)}
+  input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-tint)}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:40px;padding:0 16px;border-radius:8px;font:inherit;font-weight:500;border:1px solid transparent;cursor:pointer;transition:background 150ms var(--ease)}
+  .btn-primary{background:var(--accent);color:var(--accent-fg);width:100%;margin-top:18px}
+  .btn-primary:hover{filter:brightness(1.08)}
+  .err{color:var(--negative);font-size:13px;margin-top:12px;min-height:18px}
+  .alt{margin-top:20px;text-align:center;font-size:13px;color:var(--text-secondary)}
+  .alt a{color:var(--accent);text-decoration:none}
+  .alt a:hover{text-decoration:underline}
+  .pin{display:flex;gap:8px;justify-content:center;margin:16px 0}
+  .pin input{width:48px;height:56px;text-align:center;font-size:20px;font-weight:600}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <div class="brand"><div class="mark">ƒ</div><div class="brand-name">Finch</div></div>
+    <h1>Welcome back</h1>
+    <p class="sub">Sign in to your local-first finance cabinet.</p>
+    <form id="form">
+      <label for="email">Email</label>
+      <input id="email" type="email" autocomplete="username" required>
+      <label for="password">Password</label>
+      <input id="password" type="password" autocomplete="current-password" required>
+      <button class="btn btn-primary" type="submit">Sign in</button>
+      <div class="err" id="err"></div>
+    </form>
+    <div class="alt">No account yet? <a href="signup.html">Create one</a></div>
+  </div>
+</div>
+<script src="auth.js"></script>
+<script>
+  if (FCAuth.isLoggedIn() && !FCAuth.isPinLocked()) location.replace('desktop/home.html');
+  document.getElementById('form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var email = document.getElementById('email').value.trim();
+    var password = document.getElementById('password').value;
+    var err = document.getElementById('err');
+    err.textContent = '';
+    try {
+      FCAuth.login(email, password);
+      var p = FCAuth.currentProfile();
+      if (p && p.pin) location.replace('pin.html');
+      else if (p && !p.onboarded) location.replace('desktop/onboarding.html');
+      else location.replace('desktop/home.html');
+    } catch (ex) { err.textContent = ex.message; }
+  });
+</script>
+</body>
+</html>

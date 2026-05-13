@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-accent="teal">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Create account — Finch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Geist:wght@400;500;600&family=Newsreader:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<style>
+  html,body{margin:0;background:var(--bg);color:var(--text-primary);font-family:var(--font-system);height:100%}
+  .wrap{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px}
+  .card{width:100%;max-width:480px;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:36px 32px;box-shadow:var(--shadow-card)}
+  .brand{display:flex;align-items:center;gap:10px;margin-bottom:24px}
+  .mark{width:32px;height:32px;border-radius:8px;background:var(--text-primary);color:var(--bg);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:700;font-size:19px;letter-spacing:-0.04em}
+  .brand-name{font-family:var(--font-display);font-weight:600;font-size:18px;letter-spacing:-0.02em}
+  h1{font-family:var(--font-display);font-weight:600;letter-spacing:-0.02em;font-size:28px;margin:0 0 6px}
+  .sub{color:var(--text-secondary);font-size:14px;margin:0 0 22px}
+  label{display:block;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.4px;color:var(--text-tertiary);margin:14px 0 6px}
+  input,select{width:100%;height:40px;padding:0 12px;border:1px solid var(--border);border-radius:8px;background:var(--surface-sunken);color:var(--text-primary);font:inherit;outline:none}
+  input:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-tint)}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:40px;padding:0 16px;border-radius:8px;font:inherit;font-weight:500;border:1px solid transparent;cursor:pointer}
+  .btn-primary{background:var(--accent);color:var(--accent-fg);width:100%;margin-top:18px}
+  .btn-primary:hover{filter:brightness(1.08)}
+  .err{color:var(--negative);font-size:13px;margin-top:12px;min-height:18px}
+  .alt{margin-top:20px;text-align:center;font-size:13px;color:var(--text-secondary)}
+  .alt a{color:var(--accent);text-decoration:none}
+  .currs{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+  .chip{display:inline-flex;align-items:center;gap:4px;height:28px;padding:0 10px;border-radius:999px;border:1px solid var(--border);background:var(--surface-sunken);font-size:12px;font-weight:600;cursor:pointer;user-select:none}
+  .chip[aria-pressed="true"]{background:var(--accent-tint);border-color:var(--accent);color:var(--accent)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <div class="brand"><div class="mark">ƒ</div><div class="brand-name">Finch</div></div>
+    <h1>Set up your cabinet</h1>
+    <p class="sub">Local-first. Your data never leaves this machine.</p>
+    <form id="form">
+      <label for="name">Name</label>
+      <input id="name" type="text" autocomplete="name" required>
+      <label for="email">Email</label>
+      <input id="email" type="email" autocomplete="email" required>
+      <div class="row">
+        <div>
+          <label for="password">Password</label>
+          <input id="password" type="password" autocomplete="new-password" minlength="6" required>
+        </div>
+        <div>
+          <label for="baseCurrency">Base currency</label>
+          <select id="baseCurrency">
+            <option value="EUR" selected>EUR — Euro</option>
+            <option value="USD">USD — US Dollar</option>
+            <option value="GBP">GBP — Pound Sterling</option>
+            <option value="CHF">CHF — Swiss Franc</option>
+            <option value="JPY">JPY — Yen</option>
+          </select>
+        </div>
+      </div>
+      <label>Active currencies</label>
+      <div class="currs" id="currs">
+        <button type="button" class="chip" data-c="EUR" aria-pressed="true">EUR</button>
+        <button type="button" class="chip" data-c="USD" aria-pressed="true">USD</button>
+        <button type="button" class="chip" data-c="GBP" aria-pressed="true">GBP</button>
+        <button type="button" class="chip" data-c="CHF" aria-pressed="false">CHF</button>
+        <button type="button" class="chip" data-c="JPY" aria-pressed="false">JPY</button>
+      </div>
+      <button class="btn btn-primary" type="submit">Create account</button>
+      <div class="err" id="err"></div>
+    </form>
+    <div class="alt">Already have one? <a href="login.html">Sign in</a></div>
+  </div>
+</div>
+<script src="auth.js"></script>
+<script>
+  document.querySelectorAll('#currs .chip').forEach(function (c) {
+    c.addEventListener('click', function () {
+      var p = c.getAttribute('aria-pressed') === 'true';
+      c.setAttribute('aria-pressed', String(!p));
+    });
+  });
+  document.getElementById('form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var err = document.getElementById('err');
+    err.textContent = '';
+    try {
+      var actives = Array.from(document.querySelectorAll('#currs .chip[aria-pressed="true"]')).map(function (c) { return c.dataset.c; });
+      var base = document.getElementById('baseCurrency').value;
+      if (actives.indexOf(base) < 0) actives.unshift(base);
+      FCAuth.signup({
+        name: document.getElementById('name').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        password: document.getElementById('password').value,
+        baseCurrency: base,
+        activeCurrencies: actives,
+      });
+      location.replace('desktop/onboarding.html');
+    } catch (ex) { err.textContent = ex.message; }
+  });
+</script>
+</body>
+</html>

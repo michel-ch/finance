@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-accent="teal">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unlock — Finch</title>
+<link rel="stylesheet" href="tokens.css">
+<style>
+  html,body{margin:0;background:var(--bg);color:var(--text-primary);font-family:var(--font-system);height:100%}
+  .wrap{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px}
+  .card{width:100%;max-width:360px;text-align:center}
+  .mark{width:48px;height:48px;border-radius:12px;background:var(--text-primary);color:var(--bg);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:700;font-size:28px;letter-spacing:-0.04em;margin:0 auto 14px}
+  h1{font-family:var(--font-display);font-weight:600;letter-spacing:-0.02em;font-size:24px;margin:0 0 8px}
+  .sub{color:var(--text-secondary);font-size:13px;margin:0 0 22px}
+  .pad{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:240px;margin:0 auto}
+  .key{height:56px;border-radius:14px;background:var(--surface);border:1px solid var(--border);font-size:20px;font-weight:600;cursor:pointer;color:var(--text-primary)}
+  .key:hover{background:var(--surface-sunken)}
+  .dots{display:flex;justify-content:center;gap:10px;margin:0 0 22px}
+  .dot{width:14px;height:14px;border-radius:7px;border:1px solid var(--border-strong)}
+  .dot.on{background:var(--accent);border-color:var(--accent)}
+  .err{color:var(--negative);font-size:13px;margin-top:12px;min-height:18px}
+  .out{margin-top:18px;color:var(--text-tertiary);font-size:12px;cursor:pointer}
+  .out:hover{color:var(--text-primary)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <div class="mark">ƒ</div>
+    <h1>Enter PIN</h1>
+    <p class="sub">Re-enter your PIN to unlock.</p>
+    <div class="dots" id="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+    <div class="pad" id="pad">
+      <button class="key">1</button><button class="key">2</button><button class="key">3</button>
+      <button class="key">4</button><button class="key">5</button><button class="key">6</button>
+      <button class="key">7</button><button class="key">8</button><button class="key">9</button>
+      <button class="key" style="visibility:hidden"></button>
+      <button class="key">0</button>
+      <button class="key" id="del">←</button>
+    </div>
+    <div class="err" id="err"></div>
+    <div class="out" id="out">Sign out</div>
+  </div>
+</div>
+<script src="auth.js"></script>
+<script>
+  if (!FCAuth.isLoggedIn()) location.replace('login.html');
+  if (!FCAuth.isPinLocked()) location.replace('desktop/home.html');
+  var pin = '';
+  function paint() {
+    var dots = document.querySelectorAll('.dot');
+    dots.forEach(function (d, i) { d.classList.toggle('on', i < pin.length); });
+  }
+  document.getElementById('pad').addEventListener('click', function (e) {
+    var t = e.target;
+    if (!t || t.tagName !== 'BUTTON') return;
+    if (t.id === 'del') { pin = pin.slice(0, -1); paint(); return; }
+    var ch = t.textContent.trim();
+    if (!ch) return;
+    if (pin.length >= 4) return;
+    pin += ch;
+    paint();
+    if (pin.length === 4) {
+      if (FCAuth.verifyPin(pin)) {
+        FCAuth.setPinLocked(false);
+        location.replace('desktop/home.html');
+      } else {
+        document.getElementById('err').textContent = 'Wrong PIN.';
+        setTimeout(function () { pin = ''; paint(); document.getElementById('err').textContent = ''; }, 600);
+      }
+    }
+  });
+  document.getElementById('out').addEventListener('click', function () {
+    FCAuth.logout();
+    location.replace('login.html');
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "name": "tests",
+  "version": "1.0.0",
+  "main": "index.js",
+  "dependencies": {
+    "playwright": "^1.59.0",
+    "playwright-core": "^1.59.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.59.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
