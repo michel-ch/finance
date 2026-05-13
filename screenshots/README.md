@@ -6,7 +6,10 @@ production build at `http://localhost:8765/` with the demo data set seeded via
 
 - **Desktop** captures are 1440 × 900 (full-page, so each PNG is the entire
   scrollable content, not just the viewport).
-- **Mobile** captures are 390 × 844 (iPhone 14 pro-ish portrait, full-page).
+- **Mobile** captures are 390 × 844 (iPhone 14 pro-ish portrait, **viewport only**
+  — the bottom tab bar is `position: fixed`, and Playwright's full-page mode
+  doesn't reposition fixed elements for the expanded canvas, so viewport-only
+  captures the bar at the correct visual position).
 - **Auth** captures show the screens you see before signing in / before
   finishing onboarding / when the PIN lock kicks in.
 
