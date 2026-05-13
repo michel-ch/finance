@@ -129,7 +129,7 @@ window.FC.MobileHome = function MobileHome({ blurred, data, displayFont, onNav, 
         )}
       </div>
 
-      <div style={{ padding: '0 20px 100px', display: 'flex', flexDirection: 'column', gap: 20 }}>
+      <div style={{ padding: '0 20px 96px', display: 'flex', flexDirection: 'column', gap: 20 }}>
         {/* Hero */}
         <div className="fc-card" style={{
           padding: 20, borderRadius: 16,
@@ -255,7 +255,7 @@ window.FC.MobileHome = function MobileHome({ blurred, data, displayFont, onNav, 
                     {b.name}
                   </div>
                   <div style={{ fontSize: 11, color: 'var(--text-tertiary)' }}>
-                    {new Date(b.date).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
+                    {new Date(b.nextDate).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
                   </div>
                 </div>
                 <MoneyDisplay amount={-b.amount} currency={b.currency} size="small" blurred={blurred} />
@@ -471,6 +471,7 @@ window.FC.MobileTransactions = function MobileTransactions({ blurred, data, onNa
 
   return (
     <>
+      <div style={{ paddingBottom: 96 }}>
       {chrome && (
         <div style={{ padding: '8px 20px 12px', display: 'flex', alignItems: 'center', gap: 12 }}>
           <h1 style={{ margin: 0, fontSize: 22, fontWeight: 600, letterSpacing: '-0.02em', flex: 1 }}>Activity</h1>
@@ -559,6 +560,7 @@ window.FC.MobileTransactions = function MobileTransactions({ blurred, data, onNa
             </div>
           );
         })}
+      </div>
       </div>
 
       {chrome && (

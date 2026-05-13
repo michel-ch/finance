@@ -105,14 +105,14 @@
     ];
     return R.createElement('nav', {
       style: {
-        position: 'sticky', bottom: 0, left: 0, right: 0,
+        position: 'fixed', bottom: 0, left: 0, right: 0,
         background: 'color-mix(in srgb, var(--surface) 92%, transparent)',
         backdropFilter: 'blur(20px)',
         borderTop: '1px solid var(--border)',
         padding: '6px 8px',
         paddingBottom: 'calc(6px + env(safe-area-inset-bottom))',
         display: 'flex', justifyContent: 'space-around',
-        zIndex: 5, flex: 'none',
+        zIndex: 40,
       },
     }, tabs.map(function (t) {
       var isActive = active === t.id;
@@ -151,7 +151,7 @@
         background: 'var(--accent)', color: 'var(--accent-fg)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         boxShadow: '0 8px 24px rgba(13, 148, 136, 0.35), 0 2px 8px rgba(13, 148, 136, 0.2)',
-        zIndex: 6,
+        zIndex: 50,
         border: 'none',
       },
     }, R.createElement(Icon, { name: 'plus', size: 26, strokeWidth: 2.25 }));
