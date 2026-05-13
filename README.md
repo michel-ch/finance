@@ -5,6 +5,10 @@ forecasting, budgets, goals, recurring rules, investments, and a privacy-blur
 toggle. **No build step, no backend** — JSX is transformed in the browser via
 Babel-standalone, and all data lives in `localStorage`, namespaced per profile.
 
+<p align="center">
+  <img src="screenshots/desktop/01-home.png" alt="Finch home dashboard" width="900">
+</p>
+
 ## Quick start
 
 ```bat
@@ -53,6 +57,48 @@ Finance/
     ├── mobile/            # Mobile pages + bottom tab bar + FAB
     └── serve.py           # Dev server: http.server with no-cache headers
 ```
+
+## Screens
+
+### Transactions, with real working filters and bulk actions
+
+<p align="center">
+  <img src="screenshots/desktop/04-transactions.png" alt="Transactions" width="900">
+</p>
+
+### Forecast — projection chart, per-account toggles, and an inline "what if I bought this?" simulator
+
+<p align="center">
+  <img src="screenshots/desktop/05-forecast.png" alt="Forecast" width="900">
+</p>
+
+### Goals — progress rings, off-track flagging, and clickable suggestions that actually mutate the goal
+
+<p align="center">
+  <img src="screenshots/desktop/07-goals.png" alt="Goals" width="900">
+</p>
+
+### "Can I afford?" simulator — verdict, goal impact, save scenarios, add as planned tx
+
+<p align="center">
+  <img src="screenshots/desktop/06-simulator.png" alt="Simulator" width="900">
+</p>
+
+### Mobile — same data, real bottom-tab navigation, working full-page Add screen
+
+<p align="center">
+  <img src="screenshots/mobile/01-home.png" alt="Mobile home" width="240">
+  &nbsp;
+  <img src="screenshots/mobile/02-transactions.png" alt="Mobile activity" width="240">
+  &nbsp;
+  <img src="screenshots/mobile/04-goals.png" alt="Mobile goals" width="240">
+  &nbsp;
+  <img src="screenshots/mobile/06-add.png" alt="Mobile add transaction" width="240">
+</p>
+
+The full gallery — 13 desktop pages, 6 mobile pages, 4 auth/onboarding screens —
+lives in [`screenshots/`](screenshots/README.md), all captured against the demo
+data seed.
 
 ## Documentation
 
