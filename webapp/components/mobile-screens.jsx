@@ -310,7 +310,9 @@ window.FC.MobileForecast = function MobileForecast({ blurred, data, onNav, chrom
   const HORIZONS = [30, 60, 90, 365];
   const [horizon, setHorizon] = React.useState(30);
   const projection = data.forecast.projection.slice(0, horizon);
-  const lowest = projection.reduce((m, p) => p.v < m.v ? p : m, projection[0]);
+  const lowest = projection.length
+    ? projection.reduce((m, p) => p.v < m.v ? p : m, projection[0])
+    : null;
 
   return (
     <>
@@ -342,16 +344,24 @@ window.FC.MobileForecast = function MobileForecast({ blurred, data, onNav, chrom
           })}
         </div>
 
-        <div className="fc-card" style={{ padding: 16, borderRadius: 16 }}>
-          <div style={{ fontSize: 11, color: 'var(--text-tertiary)', fontWeight: 600, letterSpacing: '0.5px', textTransform: 'uppercase' }}>
-            Lowest projected · {new Date(data.today.getTime() + lowest.d * 86400000).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+        {lowest ? (
+          <div className="fc-card" style={{ padding: 16, borderRadius: 16 }}>
+            <div style={{ fontSize: 11, color: 'var(--text-tertiary)', fontWeight: 600, letterSpacing: '0.5px', textTransform: 'uppercase' }}>
+              Lowest projected · {new Date(data.today.getTime() + lowest.d * 86400000).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+            </div>
+            <div style={{ marginTop: 4 }}>
+              <MoneyDisplay amount={lowest.v} currency="EUR" size="h1" blurred={blurred}
+                colorize={lowest.v < 0} />
+            </div>
+            <MobileForecastChart projection={projection} history={data.forecast.history} blurred={blurred} today={data.today} />
           </div>
-          <div style={{ marginTop: 4 }}>
-            <MoneyDisplay amount={lowest.v} currency="EUR" size="h1" blurred={blurred}
-              colorize={lowest.v < 0} />
+        ) : (
+          <div className="fc-card" style={{ padding: 24, borderRadius: 16, textAlign: 'center' }}>
+            <div style={{ fontSize: 13, color: 'var(--text-secondary)' }}>
+              Forecast comes online once you have accounts and recurring rules.
+            </div>
           </div>
-          <MobileForecastChart projection={projection} history={data.forecast.history} blurred={blurred} today={data.today} />
-        </div>
+        )}
 
         {/* Simulator card */}
         <button
